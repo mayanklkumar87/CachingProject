@@ -2,6 +2,10 @@ package pkg.cache.basic;
 
 import java.util.Map;
 
+/**
+* LRUCacheTest has unit test testing  the basic functionality 
+*  of all methods of LRUCache class
+*/
 public class LRUCacheTest {
 
 	CacheEntry testEntry = new CacheEntry();
@@ -47,7 +51,7 @@ public class LRUCacheTest {
 			result="Could not remove node";
 		return result;
 	}
-	
+	/** maxtime < 2000 will evict the entry maxTime > 2000 will not remove cache entry*/
 	public String testEvictCache() throws InterruptedException {
 		String result="";
 		testLRUCache.putCacheEntry(1, "Test Evict");
