@@ -4,6 +4,10 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+/**
+* LRUCacheTest has JUNIT tests for the basic functionality 
+*  of all methods of LRUCache class
+*/
 public class LRUTestCache {
 
 	
