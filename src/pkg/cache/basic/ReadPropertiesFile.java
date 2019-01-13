@@ -9,6 +9,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+/**
+* This class  reads data from property file stores it in a map  
+*/
 public class ReadPropertiesFile {
 	public static Map<String, String> property() {
 		Map<String,String> propertyMap = new HashMap<>();
@@ -33,9 +36,6 @@ public class ReadPropertiesFile {
 			e.printStackTrace();
 		}
 		return propertyMap;
-	}
-	public static void main(String[] args) {
-		property();
 	}
 }
 
