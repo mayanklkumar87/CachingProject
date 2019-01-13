@@ -4,24 +4,42 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public class LRUCache {
+/**
+* LRUCache class allows to add cache object to a map which are
+* removed using least recently used algorithm using a hashmap 
+* and a doubly linked list and the cache has
+* fix size and fix time for which the objects can stay in cache
+* these properties are configurable.
+*/
 
+public class LRUCache {
+	
+	/** Cache Object start reference */
 	CacheEntry start;
+	/** Cache Object end reference */
 	CacheEntry end;
+	/** Map of property values fetched from test.properties file */
 	Map<String, String> propValues = ReadPropertiesFile.property();
+	/** maxSize is maximum size of hashmap or number of objects that can stay in a Cache simultaneously*/
 	int maxSize = Integer.parseInt(propValues.get("LRUCache.CacheMap.maxSize")); 
+	/** maximum time for which an object can stay without being accessed and without getting evicted using lru startegy */
 	long maxTime = Long.parseLong(propValues.get("LRUCache.CacheMap.maxTime"));
+	/** time after which evictCache method is called */
 	long runInterval = Long.parseLong(propValues.get("LRUCache.CacheMap.runInterval"));
 
+	/** Cache Map stores key and CacheEntry */
 	private Map<Integer, CacheEntry> cacheEntryMap;
-
+	
+	/** Single instance of cache class */
 	private static LRUCache LRUSingeltonCache = new LRUCache();
-
+	
+	/** gets the single instance */
 	public static LRUCache getLRUCacheInstance() 
 	{
 		return LRUSingeltonCache;
 	}
 
+	/** cache class constructor with time eviction thread implementation */
 	private LRUCache() 
 	{
 		cacheEntryMap = new HashMap<>();
@@ -38,7 +56,10 @@ public class LRUCache {
 			new Thread(evictionTask).start();
 			}
 	}
-
+	
+	/** gets CacheEntry object synchronized on cacheEntryMap so that 
+	*    only one method is called on cacheEntryMap object at a time
+	*/
 	public Object getCacheEntry(int key) {
 		synchronized(cacheEntryMap){
 			if (cacheEntryMap.containsKey(key)) 
@@ -51,7 +72,8 @@ public class LRUCache {
 			return null;
 		}
 	}
-
+	
+	/** Puts a CacheEntry Object synchronized on cacheEntryMap */
 	public void putCacheEntry(int key, Object value) {
 		synchronized(cacheEntryMap){
 			if (cacheEntryMap.containsKey(key)) 
@@ -79,6 +101,7 @@ public class LRUCache {
 			}
 		}
 	}
+	/** Adds an CacheEntry object to start of list */
 	public void addAtTop(CacheEntry node) {
 		node.next = start;
 		node.prev = null;
@@ -91,7 +114,8 @@ public class LRUCache {
 		}
 		node.lastAccessedTime = System.currentTimeMillis();
 	}
-
+	
+	/** removes the node provided as argument */
 	public void removeNode(CacheEntry node) {
 
 		if (node.prev != null) {
@@ -107,6 +131,7 @@ public class LRUCache {
 		}
 	}
 	
+	/** Evicts cache based on time an object is removed after maxTime is passed after it had been accessed */
 	public void evictCache(){
 		ArrayList<Integer> deleteKey = new ArrayList<>();
 		synchronized(cacheEntryMap) {
