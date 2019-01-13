@@ -16,16 +16,23 @@ public class LRUCache {
 	
 	/** Cache Object start reference */
 	CacheEntry start;
+	
 	/** Cache Object end reference */
 	CacheEntry end;
+	
 	/** Map of property values fetched from test.properties file */
 	Map<String, String> propValues = ReadPropertiesFile.property();
-	/** maxSize is maximum size of hashmap or number of objects that can stay in a Cache simultaneously*/
-	int maxSize = Integer.parseInt(propValues.get("LRUCache.CacheMap.maxSize")); 
-	/** maximum time for which an object can stay without being accessed and without getting evicted using lru startegy */
-	long maxTime = Long.parseLong(propValues.get("LRUCache.CacheMap.maxTime"));
+	
+	/** maxSize is maximum size of hashmap or number 
+	 * of objects that can stay in a Cache simultaneously*/
+	private final int maxSize = Integer.parseInt(propValues.get("LRUCache.CacheMap.maxSize")); 
+	
+	/** maximum time for which an object can stay without 
+	 * being accessed and without getting evicted using lru startegy */
+	private final long maxTime = Long.parseLong(propValues.get("LRUCache.CacheMap.maxTime"));
+	
 	/** time after which evictCache method is called */
-	long runInterval = Long.parseLong(propValues.get("LRUCache.CacheMap.runInterval"));
+	private final long runInterval = Long.parseLong(propValues.get("LRUCache.CacheMap.runInterval"));
 
 	/** Cache Map stores key and CacheEntry */
 	private Map<Integer, CacheEntry> cacheEntryMap;
